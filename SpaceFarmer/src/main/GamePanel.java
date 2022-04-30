@@ -11,7 +11,7 @@ import entity.Player;
 import object.SuperObject;
 import tile.TileManager;
 
-public class GamePanel extends JPanel implements Runnable{
+public class GamePanel extends JPanel implements Runnable {
     // Screen Settings
     final int ORIGINAL_TILE_SIZE = 16; //16x16 tile -- default size of any sprite/tile
     final int SCALE = 3;
