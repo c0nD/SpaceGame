@@ -5,6 +5,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import main.GamePanel;
+import main.UtilityTool;
 
 public class SuperObject {
 	public BufferedImage image;
@@ -14,6 +15,7 @@ public class SuperObject {
 	public Rectangle hitBox = new Rectangle(0,0,48,48); // 48 is tile size
 	public int hitBoxDefaultX = 0;
 	public int hitBoxDefaultY = 0;
+	UtilityTool util = new UtilityTool();
 	
 	public void draw(Graphics2D g2, GamePanel gp) {
 		int screenX = worldX - gp.player.worldX + gp.player.screenX; // Returning the screen position from world and centering it

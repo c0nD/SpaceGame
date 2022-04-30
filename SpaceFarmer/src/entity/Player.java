@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 
 import main.GamePanel;
 import main.KeyHandler;
+import main.UtilityTool;
 
 public class Player extends Entity {
 	GamePanel gp;
@@ -36,27 +37,35 @@ public class Player extends Entity {
 	}
 	
 	public void setDefaultStats() {
-		worldX = gp.TILE_SIZE * 23; // Default X spawn
-		worldY = gp.TILE_SIZE * 21; // Default Y spawn
+		worldX = gp.TILE_SIZE * 24; // Default X spawn
+		worldY = gp.TILE_SIZE * 23; // Default Y spawn
 		speed = 4;
 		direction = "down";
 	}
 	
 	public void getPlayerImage() {
+		up1 = setup("Astronaut_B1");
+		up2 = setup("Astronaut_B2");
+		down1 = setup("Astronaut_F1");
+		down2 = setup("Astronaut_F2");
+		left1 = setup("Astronaut_L1");
+		left2 = setup("Astronaut_L2");
+		right1 = setup("Astronaut_R1");
+		right2 = setup("Astronaut_R2");
+	}
+	
+	public BufferedImage setup(String imageName) {
+		UtilityTool util = new UtilityTool();
+		BufferedImage image = null;
+		
 		try {
-			
-			up1 = ImageIO.read(getClass().getResourceAsStream("/player/Astronaut_B1.png"));
-			up2 = ImageIO.read(getClass().getResourceAsStream("/player/Astronaut_B2.png"));
-			down1 = ImageIO.read(getClass().getResourceAsStream("/player/Astronaut_F1.png"));
-			down2 = ImageIO.read(getClass().getResourceAsStream("/player/Astronaut_F2.png"));
-			left1 = ImageIO.read(getClass().getResourceAsStream("/player/Astronaut_L1.png"));
-			left2 = ImageIO.read(getClass().getResourceAsStream("/player/Astronaut_L2.png"));
-			right1 = ImageIO.read(getClass().getResourceAsStream("/player/Astronaut_R1.png"));
-			right2 = ImageIO.read(getClass().getResourceAsStream("/player/Astronaut_R2.png"));
-			
+			image = ImageIO.read(getClass().getResourceAsStream("/player/" + imageName + ".png"));
+			image = util.scaledImage(image, gp.TILE_SIZE, gp.TILE_SIZE);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		return image;
 	}
 	
 	public void update() {
@@ -204,7 +213,7 @@ public class Player extends Entity {
 			break;
 		}
 		
-		g2.drawImage(image, screenX, screenY, gp.TILE_SIZE, gp.TILE_SIZE, null);
+		g2.drawImage(image, screenX, screenY, null);
 		
 	}
 }

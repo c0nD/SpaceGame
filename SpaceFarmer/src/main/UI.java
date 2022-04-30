@@ -23,7 +23,7 @@ public class UI {
 		this.gp = gp;
 		font = new Font("System", Font.PLAIN, 40);
 		font_END = new Font("System", Font.BOLD, 75);
-		Object_Key key = new Object_Key();
+		Object_Key key = new Object_Key(gp);
 		keyImage = key.image;
 	}
 	
