@@ -4,12 +4,15 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import entity.Entity;
+import entity.NPC_Alien;
 import entity.Player;
-import object.SuperObject;
 import tile.TileManager;
+import java.util.*;
 
 public class GamePanel extends JPanel implements Runnable {
     // Screen Settings
@@ -33,22 +36,34 @@ public class GamePanel extends JPanel implements Runnable {
     // Instances
     
     // System
-    TileManager tileM = new TileManager(this);
-    KeyHandler keyH = new KeyHandler();
+    public TileManager tileM = new TileManager(this);
+    public KeyHandler keyH = new KeyHandler(this);
     Sound music = new Sound();
     Sound soundEffects = new Sound();
     public CollisionCheck cCheck = new CollisionCheck(this);
     public AssetSetter aSetter = new AssetSetter(this);
     public UI ui = new UI(this);
+    public EventHandler eHandler = new EventHandler(this);
     Thread gameThread;
     
     // Entity / Objects
     public Player player = new Player(this, keyH);
-    public SuperObject obj[] = new SuperObject[10]; // how many objs can be displayed at once
+    public Entity obj[] = new Entity[10]; // how many objs can be displayed at once
+    public Entity npc[] = new Entity[10]; // How many npcs can be displayed at once
+    public Entity enemy[] = new Entity[25]; // how many monsters can be displayed at once
+    ArrayList<Entity> entityList = new ArrayList<>();
+    
+
+    
+    // Game State
+    public int gameState;
+    public final int TITLE_STATE = 0;
+    public final int PLAY_STATE = 1;
+    public final int PAUSE_STATE = 2;
+    public final int DIALOGUE_STATE = 3;
     
     
     public GamePanel() {
-        
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setBackground(Color.gray);
         this.setDoubleBuffered(true); // performance
@@ -58,7 +73,10 @@ public class GamePanel extends JPanel implements Runnable {
     
     public void setupGame() {
     	aSetter.setObject();
-    	playMusic(0);
+    	aSetter.setNPC();
+    	aSetter.setEnemy();
+//    	playMusic(0);
+    	gameState = TITLE_STATE;
     }
 
     public void startGameThread() {
@@ -81,15 +99,9 @@ public class GamePanel extends JPanel implements Runnable {
     		try {
     			double remainingTime = nextDrawTime - System.nanoTime(); // Time until next frame
     			remainingTime /= 1000000; // sleep accepts milli
-				
-				if (remainingTime < 0) {
-					remainingTime = 0;
-				}
-				
+				if (remainingTime < 0) remainingTime = 0;
 				Thread.sleep((long) remainingTime);
-				
 				nextDrawTime += drawInterval; // incrementation between frames
-				
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -98,7 +110,20 @@ public class GamePanel extends JPanel implements Runnable {
     
     // Updating information about the game
     public void update() {
-    	player.update();
+    	if (gameState == PLAY_STATE) {
+    		// Player
+    		player.update();
+    		// NPC
+    		for (int i = 0; i < npc.length; i++) {
+    			if (npc[i] != null) npc[i].update();
+    		}
+    	}
+    	for (int i = 0; i < enemy.length; i++) {
+			if (enemy[i] != null) enemy[i].update();
+		}
+    	if (gameState == PAUSE_STATE) {
+    		// do nothing
+    	}
     }
  
     // Drawing to screen -- draws in "layers" 
@@ -107,17 +132,49 @@ public class GamePanel extends JPanel implements Runnable {
     	
     	Graphics2D g2 = (Graphics2D) g;
     	
-    	tileM.draw(g2);
-    	
-    	for (int i  = 0; i < obj.length; i-=-1) {
-    		if (obj[i] != null) {
-    			obj[i].draw(g2, this);
-    		}
+    	// Title
+    	if (gameState == TITLE_STATE) {
+    		ui.draw(g2);
     	}
-    	
-    	player.draw(g2);
-    	
-    	ui.draw(g2);
+    	else {
+    		//     Tiles
+        	tileM.draw(g2);
+        	//     Entities
+        	// Player
+        	entityList.add(player);
+        	// NPCs
+        	for (int i = 0; i < npc.length; i++) {
+        		if (npc[i] != null) entityList.add(npc[i]);
+        	}
+        	// Enemies
+        	for (int i = 0; i < enemy.length; i++) {
+        		if (enemy[i] != null) entityList.add(enemy[i]);
+        	}
+        	// Objects
+        	for (int i = 0; i < obj.length; i++) {
+        		if (obj[i] != null) entityList.add(obj[i]);
+        	}
+        	// Sorting
+        	Collections.sort(entityList, new Comparator<Entity>() {
+
+				@Override
+				public int compare(Entity e1, Entity e2) {
+					int result = Integer.compare(e1.worldY,  e2.worldY);
+					return result;
+				}
+        		
+        	});
+        	// Drawing entities
+        	for (int i = 0; i < entityList.size(); i++) {
+        		entityList.get(i).draw(g2);
+        	}
+        	for (int i = 0; i < entityList.size(); i++) {
+        		entityList.remove(i); // Clearing list
+        	}
+        	
+        	//     UI
+        	ui.draw(g2);
+    	}
     	
     	g2.dispose();
     }

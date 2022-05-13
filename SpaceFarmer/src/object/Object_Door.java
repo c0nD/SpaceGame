@@ -4,21 +4,22 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import entity.Entity;
 import main.GamePanel;
 
-public class Object_Door extends SuperObject{
-	GamePanel gp;
+public class Object_Door extends Entity{
 	public Object_Door(GamePanel gp) {
-		this.gp = gp;
+		super(gp);
 		name = "Door";
-		try {
-			image = ImageIO.read(getClass().getResource("/objects/Door.png"));
-			util.scaledImage(image, gp.TILE_SIZE, gp.TILE_SIZE);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
+		down1 = setup("/objects/Door", gp.TILE_SIZE, gp.TILE_SIZE);
 		collision = true;
+		
+		hitBox.x = 0;
+		hitBox.y = 16;
+		hitBox.width = gp.TILE_SIZE;
+		hitBox.height = 32;
+		hitBoxDefaultX = hitBox.x;
+		hitBoxDefaultY = hitBox.y;
 	}
 
 }

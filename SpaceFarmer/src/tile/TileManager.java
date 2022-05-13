@@ -1,4 +1,4 @@
-package tile;
+ package tile;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -111,7 +111,7 @@ public class TileManager {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void draw(Graphics2D g2) {
 		int worldCol = 0;
 		int worldRow = 0;
@@ -125,8 +125,7 @@ public class TileManager {
 			int worldY = worldRow * gp.TILE_SIZE;
 			int screenX = worldX - gp.player.worldX + gp.player.screenX; // Returning the screen position from world and centering it
 			int screenY = worldY - gp.player.worldY + gp.player.screenY; 
-			
-			// Optimization to not render stuff that isn't in view of the camera
+						// Optimization to not render stuff that isn't in view of the camera
 			if (worldX + gp.TILE_SIZE > gp.player.worldX - gp.player.screenX && 
 				worldX - gp.TILE_SIZE < gp.player.worldX + gp.player.screenX &&
 				worldY + gp.TILE_SIZE > gp.player.worldY - gp.player.screenY &&
