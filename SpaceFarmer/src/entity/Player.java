@@ -223,10 +223,8 @@ public class Player extends Entity {
 				gp.enemy[index].invincible = true;
 				
 				if (gp.enemy[index].hp <= 0) {
-					gp.enemy[index] = null;
-					System.out.println(gp.enemy[index]);
-					if (gp.enemy[index] == null) System.out.println("It is also null");
-					else System.out.println("It isn't null");
+					gp.enemy[index].dying = true;
+					
 				}
 			}
 		}
