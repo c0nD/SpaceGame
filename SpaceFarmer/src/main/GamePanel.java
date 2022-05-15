@@ -119,11 +119,13 @@ public class GamePanel extends JPanel implements Runnable {
     				npc[i].update();
     			}
     		}
+    		// Enemy
 	    	for (int i = 0; i < enemy.length; i++) {
 				if (enemy[i] != null) {
 					if (enemy[i].alive && !enemy[i].dying) {
 						enemy[i].update();
-					} else {
+					} 
+					if (enemy[i].alive == false){
 						enemy[i] = null;
 					}
 				}
@@ -152,15 +154,18 @@ public class GamePanel extends JPanel implements Runnable {
         	entityList.add(player);
         	// NPCs
         	for (int i = 0; i < npc.length; i++) {
-        		if (npc[i] != null) entityList.add(npc[i]);
+        		if (npc[i] != null) 
+        			entityList.add(npc[i]);
         	}
         	// Enemies
         	for (int i = 0; i < enemy.length; i++) {
-        		if (enemy[i] != null) entityList.add(enemy[i]);
+        		if (enemy[i] != null) 
+        			entityList.add(enemy[i]);
         	}
         	// Objects
         	for (int i = 0; i < obj.length; i++) {
-        		if (obj[i] != null) entityList.add(obj[i]);
+        		if (obj[i] != null) 
+        			entityList.add(obj[i]);
         	}
         	// Sorting
         	Collections.sort(entityList, new Comparator<Entity>() {
@@ -189,12 +194,12 @@ public class GamePanel extends JPanel implements Runnable {
     
     public void playMusic(int index) {
     	music.setFile(index);
-    	music.play();
-    	music.loop();
+//    	music.play();
+//    	music.loop();
     }
     
     public void stopMusic() {
-    	music.stop();
+//    	music.stop();
     }
     
     public void playSoundEffect(int index) {
