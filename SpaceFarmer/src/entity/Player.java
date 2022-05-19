@@ -209,6 +209,7 @@ public class Player extends Entity {
 	public void contactEnemy(int index) {
 		if (index != -1) {
 			if (!invincible) {
+				gp.playSoundEffect(7);
 				hp -= 1;
 				invincible = true;
 			}
@@ -216,9 +217,12 @@ public class Player extends Entity {
 		}
 	}
 	
+	
+	
 	public void damageEnemy(int index) {
 		if (index != -1) {
 			if (!gp.enemy[index].invincible) {
+				enemySound(index);
 				gp.enemy[index].hp -= 1;
 				gp.enemy[index].invincible = true;
 				
@@ -243,10 +247,19 @@ public class Player extends Entity {
 				gp.npc[index].speak();
 			}
 			else {
+				gp.playSoundEffect(5);
 				attacking = true;
 			}
 		}
 		
+	}
+	
+	public void enemySound(int index) {
+		if (index != -1) {
+			if (gp.enemy[index].name == "Squelb") { // Can expand for more enemies in the future w different sounds
+				gp.playSoundEffect(6);
+			}
+		}
 	}
 	
 	// Draws the user to the screen

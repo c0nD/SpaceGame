@@ -46,6 +46,7 @@ public class GamePanel extends JPanel implements Runnable {
     public EventHandler eHandler = new EventHandler(this);
     Thread gameThread;
     
+    
     // Entity / Objects
     public Player player = new Player(this, keyH);
     public Entity obj[] = new Entity[10]; // how many objs can be displayed at once
@@ -122,11 +123,11 @@ public class GamePanel extends JPanel implements Runnable {
     		// Enemy
 	    	for (int i = 0; i < enemy.length; i++) {
 				if (enemy[i] != null) {
-					if (enemy[i].alive && !enemy[i].dying) {
+					if (enemy[i].alive == true && enemy[i].dying == false) {
 						enemy[i].update();
 					} 
 					if (enemy[i].alive == false){
-						enemy[i] = null;
+						enemy[i] = null;	
 					}
 				}
 			}
@@ -157,19 +158,18 @@ public class GamePanel extends JPanel implements Runnable {
         		if (npc[i] != null) 
         			entityList.add(npc[i]);
         	}
-        	// Enemies
-        	for (int i = 0; i < enemy.length; i++) {
-        		if (enemy[i] != null) 
-        			entityList.add(enemy[i]);
-        	}
         	// Objects
         	for (int i = 0; i < obj.length; i++) {
         		if (obj[i] != null) 
         			entityList.add(obj[i]);
         	}
+        	// Enemies
+        	for (int i = 0; i < enemy.length; i++) {
+        		if (enemy[i] != null) 
+        			entityList.add(enemy[i]);
+        	}
         	// Sorting
         	Collections.sort(entityList, new Comparator<Entity>() {
-
 				@Override
 				public int compare(Entity e1, Entity e2) {
 					int result = Integer.compare(e1.worldY,  e2.worldY);
@@ -181,9 +181,7 @@ public class GamePanel extends JPanel implements Runnable {
         	for (int i = 0; i < entityList.size(); i++) {
         		entityList.get(i).draw(g2);
         	}
-        	for (int i = 0; i < entityList.size(); i++) {
-        		entityList.remove(i); // Clearing list
-        	}
+        	entityList.clear();
         	
         	//     UI
         	ui.draw(g2);
@@ -194,12 +192,12 @@ public class GamePanel extends JPanel implements Runnable {
     
     public void playMusic(int index) {
     	music.setFile(index);
-//    	music.play();
-//    	music.loop();
+    	music.play();
+    	music.loop();
     }
     
     public void stopMusic() {
-//    	music.stop();
+    	music.stop();
     }
     
     public void playSoundEffect(int index) {

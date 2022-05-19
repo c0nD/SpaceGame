@@ -140,53 +140,55 @@ public class Entity {
 				worldX - gp.TILE_SIZE < gp.player.worldX + gp.player.screenX &&
 				worldY + gp.TILE_SIZE > gp.player.worldY - gp.player.screenY &&
 				worldY - gp.TILE_SIZE < gp.player.worldY + gp.player.screenY) {
-				switch(direction) {
-				case "up":
-					if (spriteState == 1) image = up1;
-					if (spriteState == 2) image = up2;
-					break;
-				case "down":
-					if (spriteState == 1) image = down1;
-					if (spriteState == 2) image = down2;
-					break;
-				case "left":
-					if (spriteState == 1) image = left1;
-					if (spriteState == 2) image = left2;
-					break;
-				case "right":
-					if (spriteState == 1) image = right1;
-					if (spriteState == 2) image = right2;
-					break;
-				}	
-				
-				if (invincible) {
-					g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5F));
-				}
-				if (dying) {
-					dyingAnimation(g2);
-				}
-				g2.drawImage(image, screenX, screenY, gp.TILE_SIZE, gp.TILE_SIZE, null);
-				g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1F));
+					switch(direction) {
+					case "up":
+						if (spriteState == 1) image = up1;
+						if (spriteState == 2) image = up2;
+						break;
+					case "down":
+						if (spriteState == 1) image = down1;
+						if (spriteState == 2) image = down2;
+						break;
+					case "left":
+						if (spriteState == 1) image = left1;
+						if (spriteState == 2) image = left2;
+						break;
+					case "right":
+						if (spriteState == 1) image = right1;
+						if (spriteState == 2) image = right2;
+						break;
+					}	
+					
+					if (invincible) {
+						g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5F));
+					}
+					if (dying) {
+						dyingAnimation(g2);
+					}
+					g2.drawImage(image, screenX, screenY, gp.TILE_SIZE, gp.TILE_SIZE, null);
+					g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1F));
 		}
 	}
 	
 	public void dyingAnimation(Graphics2D g2) {
 		dyingCounter++;
 		
-		int i = 5;
+		int i = 15;
 		
 		if (dyingCounter <= i) changeAlpha(g2, 1F);
-		else if (dyingCounter > i && dyingCounter <= i*2) changeAlpha(g2, 1F);
-		else if (dyingCounter > i*3 && dyingCounter <= i*3) changeAlpha(g2, 0F);
-		else if (dyingCounter > i*4 && dyingCounter <= i*4) changeAlpha(g2, 1F);
-		else if (dyingCounter > i*5 && dyingCounter <= i*5) changeAlpha(g2, 0F);
-		else if (dyingCounter > i*6 && dyingCounter <= i*6) changeAlpha(g2, 1F);
-		else if (dyingCounter > i*7 && dyingCounter <= i*7) changeAlpha(g2, 0F);
-		else if (dyingCounter > i*8 && dyingCounter <= i*8) changeAlpha(g2, 1F);
+		else if (dyingCounter > i && dyingCounter <= i*2) changeAlpha(g2, 1f);
+		else if (dyingCounter > i*3 && dyingCounter <= i*3) changeAlpha(g2, 0f);
+		else if (dyingCounter > i*4 && dyingCounter <= i*4) changeAlpha(g2, 1f);
+		else if (dyingCounter > i*5 && dyingCounter <= i*5) changeAlpha(g2, 0f);
+		else if (dyingCounter > i*6 && dyingCounter <= i*6) changeAlpha(g2, 1f);
+		else if (dyingCounter > i*7 && dyingCounter <= i*7) changeAlpha(g2, 0f);
+		else if (dyingCounter > i*8 && dyingCounter <= i*8) changeAlpha(g2, 1f);
 		else {
 			dying = false;
 			alive = false;
 		}
+		
+		
 	}
 	
 	public void changeAlpha(Graphics2D g2, float alphaValue) {

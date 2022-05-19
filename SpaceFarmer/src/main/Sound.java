@@ -16,6 +16,9 @@ public class Sound {
 		soundURL[2] = getClass().getResource("/sound/Power_Up.wav");
 		soundURL[3] = getClass().getResource("/sound/Unlock.wav");
 		soundURL[4] = getClass().getResource("/sound/Fanfare.wav");
+		soundURL[5] = getClass().getResource("/sound/Saber_Hit.wav");
+		soundURL[6] = getClass().getResource("/sound/Squelb_Hit.wav");
+		soundURL[7] = getClass().getResource("/sound/Damage.wav");
 	}
 	
 	// Default way to open an audio file
