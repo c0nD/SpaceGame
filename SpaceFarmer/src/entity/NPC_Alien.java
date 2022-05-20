@@ -33,6 +33,8 @@ public class NPC_Alien extends Entity{
 		dialogues[3] = "Anyways, good luck on your mission!\nIf you need anything, I'll be here.";
 	}
 	
+	
+	
 	public void setAction() {
 		actionLockCounter++;
 		

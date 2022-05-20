@@ -1,6 +1,7 @@
 package entity;
 
 import java.awt.AlphaComposite;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -34,12 +35,14 @@ public class Entity {
 	public boolean attacking = false;
 	public boolean alive = true;
 	public boolean dying = false;
+	public boolean hpBarOn = false;
 	
 	// Counters
 	public int actionLockCounter = 0;
 	public int invincibleCounter = 0;
 	public int spriteCounter = 0;
 	public int dyingCounter = 0;
+	public int hpBarCounter = 0;
 	
 	int dialogueIndex = 0;
 	public BufferedImage image, image2, image3;
@@ -50,6 +53,21 @@ public class Entity {
 	public int hp;
 	public String name;
 	public int speed;
+	public int level;
+	public int strength;
+	public int dexterity;
+	public int attack;
+	public int defense;
+	public int exp;
+	public int nextLevelExp;
+	public int cash;
+	public Entity currentWeapon;
+	public Entity currentShield;
+	// Maybe add armor later
+	
+	// Item Attributes
+	public int attackValue;
+	public int defenseValue;
 	
 	public Entity(GamePanel gp) {
 		this.gp = gp;
@@ -74,9 +92,8 @@ public class Entity {
 		}
 	}
 	
-	public void setAction() {
-		
-	}
+	public void setAction() {}
+	public void damageReaction() {}
 	
 	public void update() {
 		setAction();
@@ -159,14 +176,36 @@ public class Entity {
 						break;
 					}	
 					
+					// Health Bar
+					if (type == 2 && hpBarOn) {
+						double oneScale = (double) gp.TILE_SIZE / maxHP;
+						double hpBarVal = oneScale * hp;
+						
+						
+						g2.setColor(new Color(20,20,20));
+						g2.fillRect(screenX-1, screenY-16, gp.TILE_SIZE+2, 12);
+						
+						g2.setColor(new Color(255,0,30));
+						g2.fillRect(screenX, screenY-15, (int) hpBarVal, 10);
+						
+						hpBarCounter++;
+						
+						if (hpBarCounter >= 600) {
+							hpBarCounter = 0;
+							hpBarOn = false;
+						}
+					}
+					
 					if (invincible) {
-						g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5F));
+						hpBarOn = true;
+						hpBarCounter = 0;
+						changeAlpha(g2, 0.5F);
 					}
 					if (dying) {
 						dyingAnimation(g2);
 					}
 					g2.drawImage(image, screenX, screenY, gp.TILE_SIZE, gp.TILE_SIZE, null);
-					g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1F));
+					changeAlpha(g2, 1F);
 		}
 	}
 	
@@ -175,14 +214,14 @@ public class Entity {
 		
 		int i = 15;
 		
-		if (dyingCounter <= i) changeAlpha(g2, 1F);
-		else if (dyingCounter > i && dyingCounter <= i*2) changeAlpha(g2, 1f);
-		else if (dyingCounter > i*3 && dyingCounter <= i*3) changeAlpha(g2, 0f);
-		else if (dyingCounter > i*4 && dyingCounter <= i*4) changeAlpha(g2, 1f);
-		else if (dyingCounter > i*5 && dyingCounter <= i*5) changeAlpha(g2, 0f);
-		else if (dyingCounter > i*6 && dyingCounter <= i*6) changeAlpha(g2, 1f);
-		else if (dyingCounter > i*7 && dyingCounter <= i*7) changeAlpha(g2, 0f);
-		else if (dyingCounter > i*8 && dyingCounter <= i*8) changeAlpha(g2, 1f);
+		if (dyingCounter <= i) spriteState = 1;
+		else if (dyingCounter > i && dyingCounter <= i*2) spriteState = 2;
+		else if (dyingCounter > i*3 && dyingCounter <= i*3) spriteState = 1;
+		else if (dyingCounter > i*4 && dyingCounter <= i*4) spriteState = 2;
+		else if (dyingCounter > i*5 && dyingCounter <= i*5) spriteState = 1;
+		else if (dyingCounter > i*6 && dyingCounter <= i*6) spriteState = 2;
+		else if (dyingCounter > i*7 && dyingCounter <= i*7) spriteState = 1;
+		else if (dyingCounter > i*8 && dyingCounter <= i*8) spriteState = 2;
 		else {
 			dying = false;
 			alive = false;

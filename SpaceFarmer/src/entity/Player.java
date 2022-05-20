@@ -13,6 +13,8 @@ import javax.imageio.ImageIO;
 import main.GamePanel;
 import main.KeyHandler;
 import main.UtilityTool;
+import object.Object_Saber_Default;
+import object.Object_Shield_Default;
 
 public class Player extends Entity {
 
@@ -20,6 +22,7 @@ public class Player extends Entity {
 	public final int screenX;
 	public final int screenY;
 	int resetAnimationCounter = 0;
+	public boolean attackCanceled = false;
 
 	public Player(GamePanel gp, KeyHandler keyH) {
 		super(gp); // Entity constructor
@@ -29,7 +32,7 @@ public class Player extends Entity {
 		screenX = (gp.SCREEN_WIDTH / 2) - (gp.TILE_SIZE / 2);
 		screenY = (gp.SCREEN_HEIGHT/ 2) - (gp.TILE_SIZE / 2);
 		
-		hitBox = new Rectangle(10, 18, 28, 28);
+		hitBox = new Rectangle(10, 18, 26, 26);
 		hitBoxDefaultX = hitBox.x;
 		hitBoxDefaultY = hitBox.y;
 		
@@ -49,8 +52,26 @@ public class Player extends Entity {
 		direction = "down";
 		
 		// Player stats
+		level = 1;
+		exp = 0;
 		maxHP = 6;
 		hp = maxHP;
+		strength = 1;
+		dexterity = 1;
+		nextLevelExp = 5;
+		cash = 0;
+		currentWeapon = new Object_Saber_Default(gp);
+		currentShield = new Object_Shield_Default(gp);
+		attack = getAttack();
+		defense = getDefense();
+	}
+	
+	public int getAttack() {
+		return strength * currentWeapon.attackValue;
+	}
+	
+	public int getDefense() {
+		return dexterity * currentShield.defenseValue;
 	}
 	
 	public void getPlayerImage() {
@@ -82,21 +103,10 @@ public class Player extends Entity {
 		// Makes sure it only updates when a key is pressed
 		else if (keyH.upPressed||keyH.downPressed|| keyH.leftPressed||keyH.rightPressed|| keyH.enterPressed) {
 			
-			if (keyH.upPressed) {
-	    		direction = "up";
-	    	}
-	    	
-	    	if (keyH.downPressed) {
-	    		direction = "down";
-	    	}
-	    	
-	    	if (keyH.rightPressed) {
-	    		direction = "right";
-	    	}
-	    	
-	    	if (keyH.leftPressed) {
-	    		direction = "left";
-	    	}
+			if (keyH.upPressed)  direction = "up";
+	    	if (keyH.downPressed)  direction = "down";
+	    	if (keyH.rightPressed) direction = "right";
+	    	if (keyH.leftPressed)  direction = "left";
 	    	
 	    	// Check collission
 	    	collisionOn = false;
@@ -130,6 +140,13 @@ public class Player extends Entity {
 	    			break;
 	    		}
 	    	}
+	    	
+	    	if (keyH.enterPressed && !attackCanceled) {
+	    		gp.playSoundEffect(5);
+	    		attacking = true;
+	    		spriteCounter = 0;
+	    	}
+	    	attackCanceled = false;
 	    	
 	    	gp.keyH.enterPressed = false;
 	    	
@@ -217,14 +234,13 @@ public class Player extends Entity {
 		}
 	}
 	
-	
-	
 	public void damageEnemy(int index) {
 		if (index != -1) {
 			if (!gp.enemy[index].invincible) {
 				enemySound(index);
 				gp.enemy[index].hp -= 1;
 				gp.enemy[index].invincible = true;
+				gp.enemy[index].damageReaction();
 				
 				if (gp.enemy[index].hp <= 0) {
 					gp.enemy[index].dying = true;
@@ -243,12 +259,9 @@ public class Player extends Entity {
 	public void interactNPC(int index) {
 		if (gp.keyH.enterPressed) {
 			if (index != -1) {
+				attackCanceled = true;
 				gp.gameState = gp.DIALOGUE_STATE;
 				gp.npc[index].speak();
-			}
-			else {
-				gp.playSoundEffect(5);
-				attacking = true;
 			}
 		}
 		
