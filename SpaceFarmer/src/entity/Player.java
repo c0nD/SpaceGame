@@ -226,8 +226,12 @@ public class Player extends Entity {
 	public void contactEnemy(int index) {
 		if (index != -1) {
 			if (!invincible) {
+				
+				int damage = gp.enemy[index].attack - defense;
+				if (damage < 0) damage = 0;
+				
 				gp.playSoundEffect(7);
-				hp -= 1;
+				hp -= damage;
 				invincible = true;
 			}
 			
@@ -238,15 +242,47 @@ public class Player extends Entity {
 		if (index != -1) {
 			if (!gp.enemy[index].invincible) {
 				enemySound(index);
-				gp.enemy[index].hp -= 1;
+				int damage = attack - gp.enemy[index].defense;
+				if (damage < 0) damage = 0;
+				gp.enemy[index].hp -= damage;
+					
 				gp.enemy[index].invincible = true;
 				gp.enemy[index].damageReaction();
 				
+				if (gp.enemy[index].hp > 0) {
+					gp.ui.addMessage(damage + " damage!");
+				}
 				if (gp.enemy[index].hp <= 0) {
-					gp.enemy[index].dying = true;
+//					// Formula for calculating XP so it scales
+//					int xpAdded = gp.enemy[index].exp * (int)(1.2 / 1 + (level - gp.enemy[index].level) + 0.2);
 					
+					gp.enemy[index].dying = true;
+					gp.ui.addMessage("Killed " + gp.enemy[index].name + "!");
+					gp.ui.addMessage("Exp +" + (int) (gp.enemy[index].exp));
+					exp += gp.enemy[index].exp;
+					checkLevelUp();
 				}
 			}
+		}
+	}
+	
+	public void checkLevelUp() {
+		if (exp >= nextLevelExp) {
+			level++;
+			exp -= nextLevelExp; // so it carries over
+			nextLevelExp *= 2;
+			maxHP += 2;
+			hp = maxHP;
+			strength++;
+			dexterity++;
+			attack = getAttack();
+			defense = getDefense();
+			
+			gp.playSoundEffect(8);
+			gp.gameState = gp.DIALOGUE_STATE;
+			gp.ui.currentDialogue = "You are level " + level + "!\n" + "You feel envigorated!";
+			
+			
 		}
 	}
 	

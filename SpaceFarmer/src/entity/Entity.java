@@ -107,7 +107,9 @@ public class Entity {
 		
 		if (this.type == 2 && contactPlayer) {
 			if (!gp.player.invincible) {
-				gp.player.hp -= 1;
+				int damage = attack - gp.player.defense;
+				if (damage < 0) damage = 0;
+				gp.player.hp -= damage;
 				gp.player.invincible = true;
 			}
 		}
@@ -179,7 +181,10 @@ public class Entity {
 					// Health Bar
 					if (type == 2 && hpBarOn) {
 						double oneScale = (double) gp.TILE_SIZE / maxHP;
-						double hpBarVal = oneScale * hp;
+						// Fix for if you damage over the max health
+						int x = hp;
+						if (hp < 0) x = 0;
+						double hpBarVal = oneScale * x;
 						
 						
 						g2.setColor(new Color(20,20,20));

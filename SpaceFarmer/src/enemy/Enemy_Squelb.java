@@ -19,6 +19,9 @@ public class Enemy_Squelb extends Entity{
 		maxHP = 4;
 		hp = maxHP;
 		type = 2;
+		attack = 2;
+		defense = 0;
+		exp = 1;
 		
 		hitBox.x = 3; // 1 pixel on each size
 		hitBox.y = 15; // 5 pixels from the top down

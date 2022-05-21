@@ -19,6 +19,7 @@ public class Sound {
 		soundURL[5] = getClass().getResource("/sound/Saber_Hit.wav");
 		soundURL[6] = getClass().getResource("/sound/Squelb_Hit.wav");
 		soundURL[7] = getClass().getResource("/sound/Damage.wav");
+		soundURL[8] = getClass().getResource("/sound/Level_Up.wav");
 	}
 	
 	// Default way to open an audio file

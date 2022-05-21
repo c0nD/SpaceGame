@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import entity.Entity;
 import entity.NPC_Alien;
@@ -20,9 +21,9 @@ public class UI {
 	GamePanel gp;
 	Graphics2D g2;
 	Font MaruMonica;
+	ArrayList<String> message = new ArrayList<String>();
+	ArrayList<Integer> messageCounter = new ArrayList<Integer>();
 	public boolean messageOn = false;
-	public String message = "";
-	int messageCounter;
 	public boolean gameFinished = false;
 	public String currentDialogue = "";
 	public int commandNum = 0;
@@ -49,9 +50,9 @@ public class UI {
 		heart_empty = heart.image3;
 	}
 	
-	public void showMessage(String text) {
-		message = text;
-		messageOn = true;
+	public void addMessage(String text) {
+		message.add(text);
+		messageCounter.add(0);
 	}
 	
 	public void draw(Graphics2D g2) {
@@ -64,6 +65,7 @@ public class UI {
 			drawTitleScreen();
 		}
 		else if (gp.gameState == gp.PLAY_STATE) {
+			drawMessage();
 			drawPlayerHealth();
 		}
 		else if (gp.gameState == gp.PAUSE_STATE) {
@@ -74,9 +76,14 @@ public class UI {
 			drawPlayerHealth();
 			drawDialogueScreen();
 		}
+		else if (gp.gameState == gp.CHARACTER_STATE) {
+			drawCharacterScreen();
+		}
 	}
 	
-	public void drawPlayerHealth() {		
+	
+	public void drawPlayerHealth() {	
+	
 		int x = gp.TILE_SIZE / 2;
 		int y =  gp.TILE_SIZE / 2;
 		int i = 0;
@@ -100,6 +107,32 @@ public class UI {
 			}
 			i-=-1;
 			x += gp.TILE_SIZE+4;
+		}
+	}
+	
+	public void drawMessage() {
+		int messageX = gp.TILE_SIZE;
+		int messageY = gp.TILE_SIZE*4;
+		g2.setFont(g2.getFont().deriveFont(Font.BOLD, 24F));
+		
+		for (int i = 0; i < message.size(); i++) {
+			if (message.get(i) != null) {
+				
+				g2.setColor(new Color(10,10,10));
+				g2.drawString(message.get(i), messageX+2, messageY+2);
+				g2.setColor(Color.WHITE);
+				g2.drawString(message.get(i), messageX, messageY);
+				
+				//arraylist++
+				int counter = messageCounter.get(i) + 1;
+				messageCounter.set(i, counter);
+				messageY += 40;
+				
+				if (messageCounter.get(i) > 180) {
+					message.remove(i);
+					messageCounter.remove(i);
+				}
+			}
 		}
 	}
 	
@@ -193,6 +226,95 @@ public class UI {
 		
 	}
 	
+	public void drawCharacterScreen() {
+		// Frame
+		final int FRAME_X = gp.TILE_SIZE*2;
+		final int FRAME_Y = gp.TILE_SIZE;
+		final int FRAME_WIDTH = gp.TILE_SIZE*5;
+		final int FRAME_HEIGHT = gp.TILE_SIZE*10;
+		
+		drawSubWindow(FRAME_X, FRAME_Y, FRAME_WIDTH, FRAME_HEIGHT);
+		
+		// Text
+		g2.setColor(Color.BLACK);
+		g2.setFont(g2.getFont().deriveFont(32F));
+		
+		int textX = FRAME_X + 20;
+		int textY = FRAME_Y + gp.TILE_SIZE;
+		final int LINE_HEIGHT = 36; // font size
+		
+		g2.drawString("Level", textX, textY);
+		textY += LINE_HEIGHT;
+		g2.drawString("HP", textX, textY);
+		textY += LINE_HEIGHT;
+		g2.drawString("Strength", textX, textY);
+		textY += LINE_HEIGHT;
+		g2.drawString("Dexterity", textX, textY);
+		textY += LINE_HEIGHT;
+		g2.drawString("Defense", textX, textY);
+		textY += LINE_HEIGHT;
+		g2.drawString("EXP", textX, textY);
+		textY += LINE_HEIGHT;
+		g2.drawString("EXP Needed", textX, textY);
+		textY += LINE_HEIGHT;
+		g2.drawString("Cash", textX, textY);
+		textY += LINE_HEIGHT+20;
+		g2.drawString("Weapon", textX, textY);
+		textY += LINE_HEIGHT+15;
+		g2.drawString("Shield", textX, textY);
+		textY += LINE_HEIGHT;
+		
+		// Values
+		int tailX = (FRAME_X + FRAME_WIDTH) - 30;
+		textY = FRAME_Y + gp.TILE_SIZE; // reset y
+		String value;
+		
+		value = String.valueOf(gp.player.level);
+		textX = getXAlignRight(value, tailX);
+		g2.drawString(value, textX, textY);
+		textY += LINE_HEIGHT;
+		
+		value = String.valueOf(gp.player.hp + "/" + gp.player.maxHP);
+		textX = getXAlignRight(value, tailX);
+		g2.drawString(value, textX, textY);
+		textY += LINE_HEIGHT;
+		
+		value = String.valueOf(gp.player.strength);
+		textX = getXAlignRight(value, tailX);
+		g2.drawString(value, textX, textY);
+		textY += LINE_HEIGHT;
+		
+		value = String.valueOf(gp.player.dexterity);
+		textX = getXAlignRight(value, tailX);
+		g2.drawString(value, textX, textY);
+		textY += LINE_HEIGHT;
+		
+		value = String.valueOf(gp.player.defense);
+		textX = getXAlignRight(value, tailX);
+		g2.drawString(value, textX, textY);
+		textY += LINE_HEIGHT;
+		
+		value = String.valueOf(gp.player.exp);
+		textX = getXAlignRight(value, tailX);
+		g2.drawString(value, textX, textY);
+		textY += LINE_HEIGHT;
+		
+		value = String.valueOf(gp.player.nextLevelExp);
+		textX = getXAlignRight(value, tailX);
+		g2.drawString(value, textX, textY);
+		textY += LINE_HEIGHT;
+		
+		value = String.valueOf(gp.player.cash);
+		textX = getXAlignRight(value, tailX);
+		g2.drawString(value, textX, textY);
+		textY += LINE_HEIGHT;
+		
+		g2.drawImage(gp.player.currentWeapon.down1, tailX - gp.TILE_SIZE, textY-14, null);
+		textY += gp.TILE_SIZE;
+		g2.drawImage(gp.player.currentShield.down1, tailX - gp.TILE_SIZE, textY-14, null);
+
+	}
+	
 	public void drawSubWindow(int x, int y, int width, int height) {
 		Color color = new Color(225,225,225,210);
 		g2.setColor(color);
@@ -206,8 +328,16 @@ public class UI {
 	}
 	
 	public int getXCenter(String text) {
+
 		int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
 		int x = (gp.SCREEN_WIDTH/2) - (length/2);
+		return x;
+	}
+	
+	public int getXAlignRight(String text, int tailX) {
+
+		int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+		int x = tailX - length;
 		return x;
 	}
 }

@@ -71,6 +71,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true); // performance
         this.addKeyListener(keyH); 
         this.setFocusable(true);
+        setFocusTraversalKeysEnabled(false); // allows me to use tabs for control
     }
     
     public void setupGame() {
