@@ -7,12 +7,14 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
 import main.GamePanel;
 import main.KeyHandler;
 import main.UtilityTool;
+import object.Object_Key;
 import object.Object_Saber_Default;
 import object.Object_Shield_Default;
 
@@ -23,6 +25,8 @@ public class Player extends Entity {
 	public final int screenY;
 	int resetAnimationCounter = 0;
 	public boolean attackCanceled = false;
+	public ArrayList<Entity> inventory = new ArrayList<>();
+	public final int MAX_INVENTORY_SIZE = 20;
 
 	public Player(GamePanel gp, KeyHandler keyH) {
 		super(gp); // Entity constructor
@@ -42,6 +46,7 @@ public class Player extends Entity {
 		setDefaultStats();
 		getPlayerImage();
 		getPlayerAttackImage();
+		setItems();
 	}
 	
 	public void setDefaultStats() {
@@ -64,6 +69,15 @@ public class Player extends Entity {
 		currentShield = new Object_Shield_Default(gp);
 		attack = getAttack();
 		defense = getDefense();
+	}
+	
+	public void setItems() {
+		inventory.add(currentWeapon);
+		inventory.add(currentShield);
+		inventory.add(new Object_Key(gp));
+		inventory.add(new Object_Key(gp));
+		
+
 	}
 	
 	public int getAttack() {
@@ -276,13 +290,12 @@ public class Player extends Entity {
 			strength++;
 			dexterity++;
 			attack = getAttack();
-			defense = getDefense();
-			
+			defense = getDefense();			
 			gp.playSoundEffect(8);
 			gp.gameState = gp.DIALOGUE_STATE;
 			gp.ui.currentDialogue = "You are level " + level + "!\n" + "You feel envigorated!";
 			
-			
+			invincible = false;
 		}
 	}
 	

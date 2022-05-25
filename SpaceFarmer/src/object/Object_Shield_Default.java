@@ -10,6 +10,7 @@ public class Object_Shield_Default extends Entity{
 		name = "Default Shield";
 		down1 = setup("/objects/Shield_Default", gp.TILE_SIZE, gp.TILE_SIZE);
 		defenseValue = 1;
+		description = "[" + name + "]\nA beginner shield.";
 	}
 
 }

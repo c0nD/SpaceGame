@@ -89,12 +89,35 @@ public class KeyHandler implements KeyListener{
 	}
 	
 	public void characterState(int code) {
-		if (code == KeyEvent.VK_TAB) {
-			gp.gameState = gp.CHARACTER_STATE;
-			if (code == KeyEvent.VK_TAB) {
-				gp.gameState = gp.PLAY_STATE;
+		gp.gameState = gp.CHARACTER_STATE;
+		if (code == KeyEvent.VK_TAB || code == KeyEvent.VK_ESCAPE) {
+			gp.gameState = gp.PLAY_STATE;
+		}
+		if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
+			if (gp.ui.slotRow != 0) {
+				gp.ui.slotRow--;
+				gp.playSoundEffect(9);
 			}
 		}
+		if (code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) {
+			if (gp.ui.slotCol != 0) {
+				gp.ui.slotCol--;
+				gp.playSoundEffect(9);
+			}
+		}
+		if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
+			if (gp.ui.slotRow != 3) {
+				gp.ui.slotRow++;
+				gp.playSoundEffect(9);
+			}
+		}
+		if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
+			if (gp.ui.slotCol != 4) {
+				gp.ui.slotCol++;
+				gp.playSoundEffect(9);
+			}
+		}
+		
 	}
 
 	@Override

@@ -11,6 +11,7 @@ public class Object_Saber_Default extends Entity{
 		name = "Default Saber";
 		down1 = setup("/objects/Saber_Default", gp.TILE_SIZE, gp.TILE_SIZE);
 		attackValue = 1;
+		description = "[" + name + "]\nA beginner saber.";
 	}
 
 }
