@@ -1,3 +1,8 @@
+/**
+ * Author: c0nD
+ * This project is a 2D action-based RPG. 
+ */
+
 package main;
 
 import javax.swing.JFrame;

@@ -21,6 +21,8 @@ public class Sound {
 		soundURL[7] = getClass().getResource("/sound/Damage.wav");
 		soundURL[8] = getClass().getResource("/sound/Level_Up.wav");
 		soundURL[9] = getClass().getResource("/sound/Cursor.wav");
+		soundURL[10] = getClass().getResource("/sound/No_Damage_Hit.wav");
+
 	}
 	
 	// Default way to open an audio file

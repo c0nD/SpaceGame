@@ -83,7 +83,7 @@ public class UI {
 			drawInventory();
 		}
 	}
-	
+
 	
 	public void drawPlayerHealth() {	
 	
@@ -360,13 +360,13 @@ public class UI {
 		int descFrameY = frameY + frameHeight;
 		int descFrameHeight = gp.TILE_SIZE*3;
 		int descFrameWidth = frameWidth;
-		drawSubWindow(descFrameX, descFrameY, descFrameWidth, descFrameHeight);
 		// Description text
 		int textX = descFrameX + 20;
 		int textY = descFrameY + gp.TILE_SIZE;
 		g2.setFont(g2.getFont().deriveFont(28F));
 		int itemIndex = getItemSlotIndex();
 		if (itemIndex < gp.player.inventory.size()) {
+			drawSubWindow(descFrameX, descFrameY, descFrameWidth, descFrameHeight);
 			for (String line : gp.player.inventory.get(itemIndex).description.split("\n")) {
 				g2.drawString(line, textX, textY);
 				textY += gp.TILE_SIZE;

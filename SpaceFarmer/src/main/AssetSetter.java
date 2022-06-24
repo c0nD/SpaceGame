@@ -15,12 +15,22 @@ public class AssetSetter {
 	}
 	
 	public void setObject() {
+		gp.obj[0] = new Object_Key(gp);
+		gp.obj[0].worldY = gp.TILE_SIZE*23;
+		gp.obj[0].worldX = gp.TILE_SIZE*30;
 		
+		gp.obj[1] = new Object_Key(gp);
+		gp.obj[1].worldY = gp.TILE_SIZE*23;
+		gp.obj[1].worldX = gp.TILE_SIZE*20;
 	}
 
 	public void setNPC() {
 		gp.npc[0] = new NPC_Alien(gp);
 		gp.npc[0].worldX = gp.TILE_SIZE * 42; // Col
+		gp.npc[0].worldY = gp.TILE_SIZE * 23; // Row
+		
+		gp.npc[0] = new NPC_Alien(gp);
+		gp.npc[0].worldX = gp.TILE_SIZE * 43; // Col
 		gp.npc[0].worldY = gp.TILE_SIZE * 23; // Row
 	}
 	
