@@ -254,6 +254,8 @@ public class UI {
 		textY += LINE_HEIGHT;
 		g2.drawString("Dexterity", textX, textY);
 		textY += LINE_HEIGHT;
+		g2.drawString("Attack", textX, textY);
+		textY += LINE_HEIGHT;
 		g2.drawString("Defense", textX, textY);
 		textY += LINE_HEIGHT;
 		g2.drawString("EXP", textX, textY);
@@ -288,6 +290,11 @@ public class UI {
 		textY += LINE_HEIGHT;
 		
 		value = String.valueOf(gp.player.dexterity);
+		textX = getXAlignRight(value, tailX);
+		g2.drawString(value, textX, textY);
+		textY += LINE_HEIGHT;
+		
+		value = String.valueOf(gp.player.attack);
 		textX = getXAlignRight(value, tailX);
 		g2.drawString(value, textX, textY);
 		textY += LINE_HEIGHT;
@@ -335,6 +342,14 @@ public class UI {
 		
 		// Draw Items
 		for (int i = 0; i < gp.player.inventory.size(); i++) {
+			
+			// Equip Cursor
+			if (gp.player.inventory.get(i) == gp.player.currentWeapon ||
+					gp.player.inventory.get(i) == gp.player.currentShield) {
+				g2.setColor(new Color(217, 228, 255));
+				g2.fillRoundRect(slotX, slotY, gp.TILE_SIZE, gp.TILE_SIZE, 10, 10);
+			}
+			
 			g2.drawImage(gp.player.inventory.get(i).down1, slotX, slotY, null);
 			slotX += slotSize;
 			

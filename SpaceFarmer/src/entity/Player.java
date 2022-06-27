@@ -40,8 +40,8 @@ public class Player extends Entity {
 		hitBoxDefaultX = hitBox.x;
 		hitBoxDefaultY = hitBox.y;
 		
-		attackHitBox.width = 36;
-		attackHitBox.height = 36;
+//		attackHitBox.width = 36;
+//		attackHitBox.height = 36;
 		
 		setDefaultStats();
 		getPlayerImage();
@@ -81,6 +81,7 @@ public class Player extends Entity {
 	}
 	
 	public int getAttack() {
+		attackHitBox = currentWeapon.attackHitBox;
 		return strength * currentWeapon.attackValue;
 	}
 	
@@ -294,6 +295,26 @@ public class Player extends Entity {
 			gp.ui.currentDialogue = "You are level " + level + "!\n" + "You feel envigorated!";
 			
 			invincible = false;
+		}
+	}
+	
+	public void selectItem() {
+		int itemIndex = gp.ui.getItemSlotIndex();
+		
+		if (itemIndex < inventory.size()) {
+			Entity selectedItem = inventory.get(itemIndex);
+			
+			if (selectedItem.type == TYPE_SABER || selectedItem.type == TYPE_HAMMER) {
+				currentWeapon = selectedItem;
+				attack = getAttack();
+			}
+			if (selectedItem.type == TYPE_SHIELD) {
+				currentShield = selectedItem;
+				defense = getDefense();
+			}
+			if (selectedItem.type == TYPE_CONSUMABLE) {
+				// implement later
+			}
 		}
 	}
 	

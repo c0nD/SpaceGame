@@ -48,7 +48,6 @@ public class Entity {
 	public BufferedImage image, image2, image3;
 	
 	// Character
-	public int type; // 0 - player, 1 - npc, 2 - enemy
 	public int maxHP;
 	public int hp;
 	public String name;
@@ -69,6 +68,16 @@ public class Entity {
 	public int attackValue;
 	public int defenseValue;
 	public String description = "";
+	
+	// Type
+	public int type; // 0 - player, 1 - npc, 2 - enemy, 
+	public final int TYPE_PLAYER = 0;
+	public final int TYPE_NPC = 1;
+	public final int TYPE_ENEMY = 2;
+	public final int TYPE_SABER = 3;
+	public final int TYPE_HAMMER = 4;
+	public final int TYPE_SHIELD = 5;
+	public final int TYPE_CONSUMABLE = 6;
 	
 	public Entity(GamePanel gp) {
 		this.gp = gp;
@@ -106,7 +115,7 @@ public class Entity {
 		gp.cCheck.checkEntity(this, gp.enemy);
 		boolean contactPlayer = gp.cCheck.checkPlayer(this);
 		
-		if (this.type == 2 && contactPlayer) {
+		if (this.type == TYPE_ENEMY && contactPlayer) {
 			if (!gp.player.invincible) {
 				int damage = attack - gp.player.defense;
 				if (damage < 0) damage = 0;

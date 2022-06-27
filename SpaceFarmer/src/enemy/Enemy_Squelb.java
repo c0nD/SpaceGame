@@ -18,7 +18,7 @@ public class Enemy_Squelb extends Entity{
 		speed = 1;
 		maxHP = 4;
 		hp = maxHP;
-		type = 2;
+		type = TYPE_ENEMY;
 		attack = 2;
 		defense = 0;
 		exp = 10;
