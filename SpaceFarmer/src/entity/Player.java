@@ -101,14 +101,25 @@ public class Player extends Entity {
 	}
 	
 	public void getPlayerAttackImage() {
-		attackUp1 = setup("/player/Astronaut_Attack_B1", gp.TILE_SIZE, gp.TILE_SIZE*2);
-		attackUp2 = setup("/player/Astronaut_Attack_B2", gp.TILE_SIZE, gp.TILE_SIZE*2);
-		attackDown1 = setup("/player/Astronaut_Attack_F1", gp.TILE_SIZE, gp.TILE_SIZE*2);
-		attackDown2 = setup("/player/Astronaut_Attack_F2", gp.TILE_SIZE, gp.TILE_SIZE*2);
-		attackLeft1 = setup("/player/Astronaut_Attack_L1", gp.TILE_SIZE*2, gp.TILE_SIZE);
-		attackLeft2 = setup("/player/Astronaut_Attack_L2", gp.TILE_SIZE*2, gp.TILE_SIZE);
-		attackRight1 = setup("/player/Astronaut_Attack_R1", gp.TILE_SIZE*2, gp.TILE_SIZE);
-		attackRight2 = setup("/player/Astronaut_Attack_R2", gp.TILE_SIZE*2, gp.TILE_SIZE);
+		if (currentWeapon.type == TYPE_SABER) {
+			attackUp1 = setup("/player/Astronaut_Attack_B1", gp.TILE_SIZE, gp.TILE_SIZE*2);
+			attackUp2 = setup("/player/Astronaut_Attack_B2", gp.TILE_SIZE, gp.TILE_SIZE*2);
+			attackDown1 = setup("/player/Astronaut_Attack_F1", gp.TILE_SIZE, gp.TILE_SIZE*2);
+			attackDown2 = setup("/player/Astronaut_Attack_F2", gp.TILE_SIZE, gp.TILE_SIZE*2);
+			attackLeft1 = setup("/player/Astronaut_Attack_L1", gp.TILE_SIZE*2, gp.TILE_SIZE);
+			attackLeft2 = setup("/player/Astronaut_Attack_L2", gp.TILE_SIZE*2, gp.TILE_SIZE);
+			attackRight1 = setup("/player/Astronaut_Attack_R1", gp.TILE_SIZE*2, gp.TILE_SIZE);
+			attackRight2 = setup("/player/Astronaut_Attack_R2", gp.TILE_SIZE*2, gp.TILE_SIZE);
+		} else if (currentWeapon.type == TYPE_HAMMER) {
+			attackUp1 = setup("/player/Astronaut_Hammer_B1", gp.TILE_SIZE, gp.TILE_SIZE*2);
+			attackUp2 = setup("/player/Astronaut_Hammer_B2", gp.TILE_SIZE, gp.TILE_SIZE*2);
+			attackDown1 = setup("/player/Astronaut_Hammer_F1", gp.TILE_SIZE, gp.TILE_SIZE*2);
+			attackDown2 = setup("/player/Astronaut_Hammer_F2", gp.TILE_SIZE, gp.TILE_SIZE*2);
+			attackLeft1 = setup("/player/Astronaut_Hammer_L1", gp.TILE_SIZE*2, gp.TILE_SIZE);
+			attackLeft2 = setup("/player/Astronaut_Hammer_L2", gp.TILE_SIZE*2, gp.TILE_SIZE);
+			attackRight1 = setup("/player/Astronaut_Hammer_R1", gp.TILE_SIZE*2, gp.TILE_SIZE);
+			attackRight2 = setup("/player/Astronaut_Hammer_R2", gp.TILE_SIZE*2, gp.TILE_SIZE);
+		}
 	}
 	
 	public void update() {
@@ -307,13 +318,15 @@ public class Player extends Entity {
 			if (selectedItem.type == TYPE_SABER || selectedItem.type == TYPE_HAMMER) {
 				currentWeapon = selectedItem;
 				attack = getAttack();
+				getPlayerAttackImage();
 			}
 			if (selectedItem.type == TYPE_SHIELD) {
 				currentShield = selectedItem;
 				defense = getDefense();
 			}
 			if (selectedItem.type == TYPE_CONSUMABLE) {
-				// implement later
+				selectedItem.use(this);
+				inventory.remove(itemIndex);
 			}
 		}
 	}

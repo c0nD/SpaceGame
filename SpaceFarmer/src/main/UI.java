@@ -346,7 +346,7 @@ public class UI {
 			// Equip Cursor
 			if (gp.player.inventory.get(i) == gp.player.currentWeapon ||
 					gp.player.inventory.get(i) == gp.player.currentShield) {
-				g2.setColor(new Color(217, 228, 255));
+				g2.setColor(new Color(210, 210, 245));
 				g2.fillRoundRect(slotX, slotY, gp.TILE_SIZE, gp.TILE_SIZE, 10, 10);
 			}
 			

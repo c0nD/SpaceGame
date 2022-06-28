@@ -6,7 +6,9 @@ import object.Object_Boots;
 import object.Object_Chest;
 import object.Object_Door;
 import object.Object_Hammer;
+import object.Object_Health_Pack;
 import object.Object_Key;
+import object.Object_Shield_Rock;
 
 public class AssetSetter {
 	GamePanel gp;
@@ -27,6 +29,15 @@ public class AssetSetter {
 		gp.obj[2] = new Object_Hammer(gp);
 		gp.obj[2].worldX = gp.TILE_SIZE*24;
 		gp.obj[2].worldY = gp.TILE_SIZE*16;
+		
+		gp.obj[3] = new Object_Shield_Rock(gp);
+		gp.obj[3].worldX = gp.TILE_SIZE*24;
+		gp.obj[3].worldY = gp.TILE_SIZE*18;
+		
+		gp.obj[4] = new Object_Health_Pack(gp);
+		gp.obj[4].worldX = gp.TILE_SIZE*27;
+		gp.obj[4].worldY = gp.TILE_SIZE*23;
+		
 	}
 
 	public void setNPC() {

@@ -105,6 +105,9 @@ public class Entity {
 	public void setAction() {}
 	public void damageReaction() {}
 	
+	public void use(Entity entity) {
+	}
+	
 	public void update() {
 		setAction();
 		
@@ -241,8 +244,6 @@ public class Entity {
 			dying = false;
 			alive = false;
 		}
-		
-		
 	}
 	
 	public void changeAlpha(Graphics2D g2, float alphaValue) {
