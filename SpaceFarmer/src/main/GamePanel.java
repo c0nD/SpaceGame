@@ -34,8 +34,6 @@ public class GamePanel extends JPanel implements Runnable {
     // FPS
     int FPS = 60;
     
-    // Instances
-    
     // System
     public TileManager tileM = new TileManager(this);
     public KeyHandler keyH = new KeyHandler(this);
@@ -47,15 +45,13 @@ public class GamePanel extends JPanel implements Runnable {
     public EventHandler eHandler = new EventHandler(this);
     Thread gameThread;
     
-    
     // Entity / Objects
     public Player player = new Player(this, keyH);
     public Entity obj[] = new Entity[10]; // how many objs can be displayed at once
     public Entity npc[] = new Entity[10]; // How many npcs can be displayed at once
     public Entity enemy[] = new Entity[25]; // how many monsters can be displayed at once
     ArrayList<Entity> entityList = new ArrayList<>();
-    
-
+    public ArrayList<Entity> projectileList = new ArrayList<>();
     
     // Game State
     public int gameState;
@@ -126,11 +122,23 @@ public class GamePanel extends JPanel implements Runnable {
     		// Enemy
 	    	for (int i = 0; i < enemy.length; i++) {
 				if (enemy[i] != null) {
-					if (enemy[i].alive == true && enemy[i].dying == false) {
+					if (enemy[i].alive && !enemy[i].dying) {
 						enemy[i].update();
 					} 
 					if (enemy[i].alive == false){
 						enemy[i] = null;	
+					}
+				}
+			}
+	    	
+	    	// Projectile
+	    	for (int i = 0; i < projectileList.size(); i++) {
+				if (projectileList.get(i) != null) {
+					if (projectileList.get(i).alive) {
+						projectileList.get(i).update();
+					} 
+					if (projectileList.get(i).alive == false){
+						projectileList.remove(i);	
 					}
 				}
 			}
@@ -171,6 +179,11 @@ public class GamePanel extends JPanel implements Runnable {
         	for (int i = 0; i < enemy.length; i++) {
         		if (enemy[i] != null) 
         			entityList.add(enemy[i]);
+        	}
+        	// Projectile
+        	for (int i = 0; i < projectileList.size(); i++) {
+        		if (projectileList.get(i) != null) 
+        			entityList.add(projectileList.get(i));
         	}
         	// Sorting
         	Collections.sort(entityList, new Comparator<Entity>() {

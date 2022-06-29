@@ -14,6 +14,7 @@ import javax.imageio.ImageIO;
 import main.GamePanel;
 import main.KeyHandler;
 import main.UtilityTool;
+import object.Object_Blaster;
 import object.Object_Key;
 import object.Object_Saber_Default;
 import object.Object_Shield_Default;
@@ -67,6 +68,7 @@ public class Player extends Entity {
 		cash = 0;
 		currentWeapon = new Object_Saber_Default(gp);
 		currentShield = new Object_Shield_Default(gp);
+		projectile = new Object_Blaster(gp);
 		attack = getAttack();
 		defense = getDefense();
 	}
@@ -177,7 +179,7 @@ public class Player extends Entity {
 	    	gp.keyH.enterPressed = false;
 	    	
 	    	spriteCounter++;
-	    	if (spriteCounter > 11) { // Can change number to change animation speed
+	    	if (spriteCounter > 12) { // Can change number to change animation speed
 	    		if (spriteState == 1) {
 	    			spriteState = 2;
 	    		}
@@ -195,6 +197,18 @@ public class Player extends Entity {
 				resetAnimationCounter = 0;
 			}
 		}
+		
+		if (gp.keyH.shootPressed && !projectile.alive && shotAvailableCounter == 30) {
+			projectile.set(worldX, worldY, direction, true, this); 
+			
+			gp.projectileList.add(projectile);
+			
+			shotAvailableCounter = 0;
+			
+			gp.playSoundEffect(11);
+		}
+		
+		
 		// I-frame counter
 		if (invincible) {
 			invincibleCounter++;
@@ -202,6 +216,9 @@ public class Player extends Entity {
 				invincible = false;
 				invincibleCounter = 0;
 			}
+		}
+		if (shotAvailableCounter < 30) {
+			shotAvailableCounter++;
 		}
 	}
 	
@@ -234,7 +251,7 @@ public class Player extends Entity {
 			hitBox.height = attackHitBox.height;
 			// checking collision with an enemy
 			int enemyIndex = gp.cCheck.checkEntity(this,  gp.enemy);
-			damageEnemy(enemyIndex);
+			damageEnemy(enemyIndex, attack);
 			
 			// Restoring player state after checking collision
 			worldX = currentWorldX;
@@ -253,7 +270,7 @@ public class Player extends Entity {
 		if (index != -1) {
 			int damage = gp.enemy[index].attack - defense;
 			if (damage < 0) damage = 0;
-			if (!invincible && damage > 0) {
+			if (!invincible && damage > 0 && !gp.enemy[index].dying) {
 				gp.playSoundEffect(7);
 				hp -= damage;
 				invincible = true;
@@ -262,7 +279,7 @@ public class Player extends Entity {
 		}
 	}
 	
-	public void damageEnemy(int index) {
+	public void damageEnemy(int index, int attack) {
 		if (index != -1) {
 			if (!gp.enemy[index].invincible) {
 				enemySound(index);

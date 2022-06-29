@@ -13,10 +13,8 @@ import main.GamePanel;
 import main.UtilityTool;
 
 public class Entity {
-
 	GamePanel gp;
-	
-	
+
 	public int hitBoxDefaultX, hitBoxDefaultY;
 	String dialogues[] = new String[50];
 	public boolean collision = false;
@@ -43,6 +41,7 @@ public class Entity {
 	public int spriteCounter = 0;
 	public int dyingCounter = 0;
 	public int hpBarCounter = 0;
+	public int shotAvailableCounter = 0;
 	
 	int dialogueIndex = 0;
 	public BufferedImage image, image2, image3;
@@ -50,6 +49,8 @@ public class Entity {
 	// Character
 	public int maxHP;
 	public int hp;
+	public int maxMana;
+	public int mana;
 	public String name;
 	public int speed;
 	public int level;
@@ -62,12 +63,14 @@ public class Entity {
 	public int cash;
 	public Entity currentWeapon;
 	public Entity currentShield;
+	public Projectile projectile;
 	// Maybe add armor later
 	
 	// Item Attributes
 	public int attackValue;
 	public int defenseValue;
 	public String description = "";
+	public int useCost;
 	
 	// Type
 	public int type; // 0 - player, 1 - npc, 2 - enemy, 
@@ -241,7 +244,6 @@ public class Entity {
 		else if (dyingCounter > i*7 && dyingCounter <= i*7) spriteState = 1;
 		else if (dyingCounter > i*8 && dyingCounter <= i*8) spriteState = 2;
 		else {
-			dying = false;
 			alive = false;
 		}
 	}

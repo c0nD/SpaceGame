@@ -22,6 +22,7 @@ public class Sound {
 		soundURL[8] = getClass().getResource("/sound/Level_Up.wav");
 		soundURL[9] = getClass().getResource("/sound/Cursor.wav");
 		soundURL[10] = getClass().getResource("/sound/No_Damage_Hit.wav");
+		soundURL[11] = getClass().getResource("/sound/Laser.wav");
 
 	}
 	
