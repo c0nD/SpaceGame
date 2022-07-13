@@ -51,6 +51,7 @@ public class Entity {
 	public int hp;
 	public int maxMana;
 	public int mana;
+	public int ammo;
 	public String name;
 	public int speed;
 	public int level;
@@ -73,7 +74,8 @@ public class Entity {
 	public int useCost;
 	
 	// Type
-	public int type; // 0 - player, 1 - npc, 2 - enemy, 
+
+	public int type; 
 	public final int TYPE_PLAYER = 0;
 	public final int TYPE_NPC = 1;
 	public final int TYPE_ENEMY = 2;
@@ -106,10 +108,10 @@ public class Entity {
 	}
 	
 	public void setAction() {}
+	
 	public void damageReaction() {}
 	
-	public void use(Entity entity) {
-	}
+	public void use(Entity entity) {}
 	
 	public void update() {
 		setAction();
@@ -122,12 +124,7 @@ public class Entity {
 		boolean contactPlayer = gp.cCheck.checkPlayer(this);
 		
 		if (this.type == TYPE_ENEMY && contactPlayer) {
-			if (!gp.player.invincible) {
-				int damage = attack - gp.player.defense;
-				if (damage < 0) damage = 0;
-				gp.player.hp -= damage;
-				gp.player.invincible = true;
-			}
+			damagePlayer(attack);
 		}
 		
 		// Movement Collision Checker
@@ -161,6 +158,18 @@ public class Entity {
 				invincible = false;
 				invincibleCounter = 0;
 			}
+		}
+    	if (shotAvailableCounter < 30) {
+			shotAvailableCounter++;
+		}
+	}
+	
+	public void damagePlayer(int attack) {
+		if (!gp.player.invincible) {
+			int damage = attack - gp.player.defense;
+			if (damage < 0) damage = 0;
+			gp.player.hp -= damage;
+			gp.player.invincible = true;
 		}
 	}
 	

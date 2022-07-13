@@ -4,6 +4,7 @@ import java.util.Random;
 
 import entity.Entity;
 import main.GamePanel;
+import object.Object_Squelb_Projectile;
 
 public class Enemy_Squelb extends Entity{
 	GamePanel gp;
@@ -22,6 +23,7 @@ public class Enemy_Squelb extends Entity{
 		attack = 2;
 		defense = 0;
 		exp = 10;
+		projectile = new Object_Squelb_Projectile(gp);
 		
 		hitBox.x = 3; // 1 pixel on each size
 		hitBox.y = 15; // 5 pixels from the top down
@@ -64,6 +66,13 @@ public class Enemy_Squelb extends Entity{
 				direction = "right";
 			}
 			actionLockCounter = 0;
+		}
+		
+		int i = new Random().nextInt(175)+1;
+		if (i > 99 && !projectile.alive && shotAvailableCounter == 30) {
+			projectile.set(worldX, worldY, direction, true, this);
+			gp.projectileList.add(projectile);
+			shotAvailableCounter = 0;
 		}
 	}
 	

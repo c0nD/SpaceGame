@@ -16,6 +16,7 @@ import entity.Entity;
 import entity.NPC_Alien;
 import object.Object_Heart;
 import object.Object_Key;
+import object.Object_Mana_Orb;
 
 public class UI {
 	GamePanel gp;
@@ -27,7 +28,7 @@ public class UI {
 	public boolean gameFinished = false;
 	public String currentDialogue = "";
 	public int commandNum = 0;
-	BufferedImage heart_full, heart_half, heart_empty;
+	BufferedImage heart_full, heart_half, heart_empty, mana_full, mana_empty;
 	public int slotCol = 0;
 	public int slotRow = 0;
 	
@@ -50,6 +51,10 @@ public class UI {
 		heart_full = heart.image;
 		heart_half = heart.image2;
 		heart_empty = heart.image3;
+		
+		Entity mana = new Object_Mana_Orb(gp);
+		mana_full = mana.image;
+		mana_empty = mana.image2;
 	}
 	
 	public void addMessage(String text) {
@@ -110,6 +115,26 @@ public class UI {
 			}
 			i-=-1;
 			x += gp.TILE_SIZE+4;
+		}
+		
+		// Drawing Mana Max
+		x = gp.TILE_SIZE / 2 - (gp.TILE_SIZE / 8);
+		y = gp.TILE_SIZE * 2 - (gp.TILE_SIZE / 2);
+		i = 0;
+		while (i < gp.player.maxMana) {
+			g2.drawImage(mana_empty, x, y, null);
+			i-=-1;
+			x += 35;
+		}
+		
+		// Draw Mana
+		x = gp.TILE_SIZE / 2 - (gp.TILE_SIZE / 8);
+		y = gp.TILE_SIZE * 2 - (gp.TILE_SIZE / 2);
+		i = 0;
+		while (i < gp.player.mana) {
+			g2.drawImage(mana_full,  x, y, null);
+			i-=-1;
+			x += 35;
 		}
 	}
 	
@@ -232,9 +257,9 @@ public class UI {
 	public void drawCharacterScreen() {
 		// Frame
 		final int FRAME_X = gp.TILE_SIZE*2;
-		final int FRAME_Y = gp.TILE_SIZE;
+		final int FRAME_Y = gp.TILE_SIZE - 16;
 		final int FRAME_WIDTH = gp.TILE_SIZE*5;
-		final int FRAME_HEIGHT = gp.TILE_SIZE*10;
+		final int FRAME_HEIGHT = gp.TILE_SIZE*11;
 		
 		drawSubWindow(FRAME_X, FRAME_Y, FRAME_WIDTH, FRAME_HEIGHT);
 		
@@ -250,6 +275,8 @@ public class UI {
 		textY += LINE_HEIGHT;
 		g2.drawString("HP", textX, textY);
 		textY += LINE_HEIGHT;
+		g2.drawString("Mana", textX, textY);
+		textY += LINE_HEIGHT;
 		g2.drawString("Strength", textX, textY);
 		textY += LINE_HEIGHT;
 		g2.drawString("Dexterity", textX, textY);
@@ -263,9 +290,9 @@ public class UI {
 		g2.drawString("EXP Needed", textX, textY);
 		textY += LINE_HEIGHT;
 		g2.drawString("Cash", textX, textY);
-		textY += LINE_HEIGHT+20;
+		textY += LINE_HEIGHT+35;
 		g2.drawString("Weapon", textX, textY);
-		textY += LINE_HEIGHT+15;
+		textY += LINE_HEIGHT+10;
 		g2.drawString("Shield", textX, textY);
 		textY += LINE_HEIGHT;
 		
@@ -280,6 +307,11 @@ public class UI {
 		textY += LINE_HEIGHT;
 		
 		value = String.valueOf(gp.player.hp + "/" + gp.player.maxHP);
+		textX = getXAlignRight(value, tailX);
+		g2.drawString(value, textX, textY);
+		textY += LINE_HEIGHT;
+		
+		value = String.valueOf(gp.player.mana + "/" + gp.player.maxMana);
 		textX = getXAlignRight(value, tailX);
 		g2.drawString(value, textX, textY);
 		textY += LINE_HEIGHT;
@@ -319,9 +351,9 @@ public class UI {
 		g2.drawString(value, textX, textY);
 		textY += LINE_HEIGHT;
 		
-		g2.drawImage(gp.player.currentWeapon.down1, tailX - gp.TILE_SIZE, textY-14, null);
+		g2.drawImage(gp.player.currentWeapon.down1, tailX - gp.TILE_SIZE, textY, null);
 		textY += gp.TILE_SIZE;
-		g2.drawImage(gp.player.currentShield.down1, tailX - gp.TILE_SIZE, textY-14, null);
+		g2.drawImage(gp.player.currentShield.down1, tailX - gp.TILE_SIZE, textY, null);
 
 	}
 	

@@ -1,9 +1,10 @@
 package object;
 
+import entity.Entity;
 import entity.Projectile;
 import main.GamePanel;
 
-public class Object_Blaster extends Projectile{
+public class Object_Blaster extends Projectile {
 	GamePanel gp;
 	
 	public Object_Blaster(GamePanel gp) {
@@ -31,4 +32,14 @@ public class Object_Blaster extends Projectile{
 		right2 = setup("/projectile/Laser_Right2", gp.TILE_SIZE, gp.TILE_SIZE);
 	}
 
+	public boolean hasResource(Entity user) {
+		if (user.mana >= useCost) {
+			return true;
+		}
+		return false;
+	}
+	
+	public void subtractResource(Entity user) {
+		user.mana -= useCost;
+	}
 }

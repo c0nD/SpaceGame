@@ -18,6 +18,7 @@ import object.Object_Blaster;
 import object.Object_Key;
 import object.Object_Saber_Default;
 import object.Object_Shield_Default;
+import object.Object_Squelb_Projectile;
 
 public class Player extends Entity {
 
@@ -61,6 +62,9 @@ public class Player extends Entity {
 		level = 1;
 		exp = 0;
 		maxHP = 6;
+		maxMana = 4;
+		ammo = 10;
+		mana = maxMana;
 		hp = maxHP;
 		strength = 1;
 		dexterity = 1;
@@ -198,12 +202,16 @@ public class Player extends Entity {
 			}
 		}
 		
-		if (gp.keyH.shootPressed && !projectile.alive && shotAvailableCounter == 30) {
+		if (gp.keyH.shootPressed && !projectile.alive && shotAvailableCounter == 30
+				&& projectile.hasResource(this)) {
+			
 			projectile.set(worldX, worldY, direction, true, this); 
 			
 			gp.projectileList.add(projectile);
 			
 			shotAvailableCounter = 0;
+			
+			projectile.subtractResource(this);
 			
 			gp.playSoundEffect(11);
 		}

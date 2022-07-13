@@ -88,6 +88,7 @@ public class EventHandler {
 			gp.player.attackCanceled = true;
 			gp.ui.currentDialogue = "You absorb the cosmic rays.\nYou feel rejuvinated.";
 			gp.player.hp = gp.player.maxHP;
+			gp.player.mana = gp.player.maxMana;
 			gp.aSetter.setEnemy();
 		}
 	}
