@@ -7,7 +7,9 @@ import object.Object_Chest;
 import object.Object_Door;
 import object.Object_Hammer;
 import object.Object_Health_Pack;
+import object.Object_Heart;
 import object.Object_Key;
+import object.Object_Mana_Orb;
 import object.Object_Moon_Coin;
 import object.Object_Shield_Rock;
 
@@ -35,9 +37,13 @@ public class AssetSetter {
 		gp.obj[3].worldX = gp.TILE_SIZE*24;
 		gp.obj[3].worldY = gp.TILE_SIZE*18;
 		
-		gp.obj[4] = new Object_Health_Pack(gp);
+		gp.obj[4] = new Object_Heart(gp);
 		gp.obj[4].worldX = gp.TILE_SIZE*27;
 		gp.obj[4].worldY = gp.TILE_SIZE*23;
+		
+		gp.obj[5] = new Object_Mana_Orb(gp);
+		gp.obj[5].worldX = gp.TILE_SIZE*25;
+		gp.obj[5].worldY = gp.TILE_SIZE*23;
 		
 	}
 

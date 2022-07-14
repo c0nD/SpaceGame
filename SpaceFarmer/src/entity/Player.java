@@ -225,8 +225,13 @@ public class Player extends Entity {
 				invincibleCounter = 0;
 			}
 		}
+		
+		// Preventing overflow
 		if (shotAvailableCounter < 30) {
 			shotAvailableCounter++;
+		}
+		if (mana > maxMana) {
+			mana = maxMana;
 		}
 	}
 	

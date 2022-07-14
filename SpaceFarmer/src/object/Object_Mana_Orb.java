@@ -10,19 +10,17 @@ public class Object_Mana_Orb extends Entity{
 		super(gp);
 		this.gp = gp;
 		
+		type = TYPE_PICKUP;
 		name = "Mana Orb";
+		value = 1;
+		down1 = setup("/objects/Mana_Full", gp.TILE_SIZE, gp.TILE_SIZE);
 		image = setup("/objects/Mana_Full", gp.TILE_SIZE, gp.TILE_SIZE);
 		image2 = setup("/objects/Mana_Empty", gp.TILE_SIZE, gp.TILE_SIZE);
 	}
 	
-	public boolean hasResource(Entity user) {
-		if (user.ammo >= useCost) {
-			return true;
-		}
-		return false;
-	}
-	
-	public void subtractResource(Entity user) {
-		user.ammo -= useCost;
+	public void use(Entity entity) {
+		gp.playSoundEffect(2);
+		gp.ui.addMessage("Mana +" + value);
+		entity.mana += value;
 	}
 }
