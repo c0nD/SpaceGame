@@ -5,13 +5,14 @@ import main.GamePanel;
 
 public class Object_Health_Pack extends Entity{
 	GamePanel gp;
-	int value = 5;
+	
 	
 	public Object_Health_Pack(GamePanel gp) {
 		super(gp);
 		this.gp = gp;
 		
 		type = TYPE_CONSUMABLE;
+		value = 5;
 		name = "Health Pack";
 		down1 = setup("/objects/Health_Pack", gp.TILE_SIZE, gp.TILE_SIZE);
 		description = "[Health Pack]\nRestores " + value + " HP.";

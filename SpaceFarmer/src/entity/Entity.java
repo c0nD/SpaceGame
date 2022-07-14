@@ -72,6 +72,7 @@ public class Entity {
 	public int defenseValue;
 	public String description = "";
 	public int useCost;
+	public int value;
 	
 	// Type
 
@@ -83,6 +84,7 @@ public class Entity {
 	public final int TYPE_HAMMER = 4;
 	public final int TYPE_SHIELD = 5;
 	public final int TYPE_CONSUMABLE = 6;
+	public final int TYPE_PICKUP = 7;
 	
 	public Entity(GamePanel gp) {
 		this.gp = gp;
@@ -234,7 +236,7 @@ public class Entity {
 					if (dying) {
 						dyingAnimation(g2);
 					}
-					g2.drawImage(image, screenX, screenY, gp.TILE_SIZE, gp.TILE_SIZE, null);
+					g2.drawImage(image, screenX, screenY, null);
 					changeAlpha(g2, 1F);
 		}
 	}

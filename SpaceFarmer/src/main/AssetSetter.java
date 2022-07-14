@@ -8,6 +8,7 @@ import object.Object_Door;
 import object.Object_Hammer;
 import object.Object_Health_Pack;
 import object.Object_Key;
+import object.Object_Moon_Coin;
 import object.Object_Shield_Rock;
 
 public class AssetSetter {
@@ -18,7 +19,7 @@ public class AssetSetter {
 	}
 	
 	public void setObject() {
-		gp.obj[0] = new Object_Key(gp);
+		gp.obj[0] = new Object_Moon_Coin(gp);
 		gp.obj[0].worldX = gp.TILE_SIZE*30;
 		gp.obj[0].worldY = gp.TILE_SIZE*23;
 		
