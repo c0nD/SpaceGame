@@ -4,6 +4,9 @@ import java.util.Random;
 
 import entity.Entity;
 import main.GamePanel;
+import object.Object_Heart;
+import object.Object_Mana_Orb;
+import object.Object_Moon_Coin;
 import object.Object_Squelb_Projectile;
 
 public class Enemy_Squelb extends Entity{
@@ -74,6 +77,23 @@ public class Enemy_Squelb extends Entity{
 			gp.projectileList.add(projectile);
 			shotAvailableCounter = 0;
 		}
+	}
+	
+	public void checkDrop() {
+		// Rolling for a drop
+		int randNum = new Random().nextInt(100) + 1;
+		
+		// Setting drop
+		if (randNum < 50) {
+			dropItem(new Object_Moon_Coin(gp));
+		}
+		else if (randNum >= 50 && randNum < 75) {
+			dropItem(new Object_Heart(gp));
+		}
+		else if (randNum >= 75 && randNum < 100) {
+			dropItem(new Object_Mana_Orb(gp));
+		}
+		
 	}
 	
 	public void damageReaction() {
