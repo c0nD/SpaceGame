@@ -25,26 +25,13 @@ public class AssetSetter {
 		gp.obj[0].worldX = gp.TILE_SIZE*30;
 		gp.obj[0].worldY = gp.TILE_SIZE*23;
 		
-		gp.obj[1] = new Object_Key(gp);
-		gp.obj[1].worldX = gp.TILE_SIZE*20;
-		gp.obj[1].worldY = gp.TILE_SIZE*23;
+		gp.obj[1] = new Object_Hammer(gp);
+		gp.obj[1].worldX = gp.TILE_SIZE*24;
+		gp.obj[1].worldY = gp.TILE_SIZE*16;
 		
-		gp.obj[2] = new Object_Hammer(gp);
+		gp.obj[2] = new Object_Shield_Rock(gp);
 		gp.obj[2].worldX = gp.TILE_SIZE*24;
-		gp.obj[2].worldY = gp.TILE_SIZE*16;
-		
-		gp.obj[3] = new Object_Shield_Rock(gp);
-		gp.obj[3].worldX = gp.TILE_SIZE*24;
-		gp.obj[3].worldY = gp.TILE_SIZE*18;
-		
-		gp.obj[4] = new Object_Heart(gp);
-		gp.obj[4].worldX = gp.TILE_SIZE*27;
-		gp.obj[4].worldY = gp.TILE_SIZE*23;
-		
-		gp.obj[5] = new Object_Mana_Orb(gp);
-		gp.obj[5].worldX = gp.TILE_SIZE*25;
-		gp.obj[5].worldY = gp.TILE_SIZE*23;
-		
+		gp.obj[2].worldY = gp.TILE_SIZE*18;
 	}
 
 	public void setNPC() {

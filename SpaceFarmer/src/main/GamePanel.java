@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import entity.Entity;
 import entity.NPC_Alien;
 import entity.Player;
+import interactive_tiles.InteractiveTile;
 import tile.TileManager;
 import java.util.*;
 
@@ -50,6 +51,7 @@ public class GamePanel extends JPanel implements Runnable {
     public Entity obj[] = new Entity[25]; // how many objs can be displayed at once
     public Entity npc[] = new Entity[25]; // How many npcs can be displayed at once
     public Entity enemy[] = new Entity[25]; // how many monsters can be displayed at once
+    public InteractiveTile interactiveTiles[] = new InteractiveTile[50];
     ArrayList<Entity> entityList = new ArrayList<>();
     public ArrayList<Entity> projectileList = new ArrayList<>();
     
@@ -143,6 +145,13 @@ public class GamePanel extends JPanel implements Runnable {
 					}
 				}
 			}
+	    	
+	    	// Interactive tiles
+	    	for (int i = 0; i < interactiveTiles.length; i++) {
+	    		if (interactiveTiles[i] != null) {
+	    			interactiveTiles[i].update();
+	    		}
+	    	}
     	}
     	if (gameState == PAUSE_STATE) {
     		// do nothing
