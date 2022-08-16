@@ -2,6 +2,7 @@ package main;
 
 import enemy.Enemy_Squelb;
 import entity.NPC_Alien;
+import interactive_tiles.InteractiveTileRock;
 import object.Object_Boots;
 import object.Object_Chest;
 import object.Object_Door;
@@ -48,5 +49,9 @@ public class AssetSetter {
 		gp.enemy[0] = new Enemy_Squelb(gp);
 		gp.enemy[0].worldX = gp.TILE_SIZE * 24; // Col
 		gp.enemy[0].worldY = gp.TILE_SIZE * 28; // Row
+	}
+	// 22 39
+	public void setInteractiveTile() {
+		gp.interactiveTiles[0] = new InteractiveTileRock(gp, 22, 39);
 	}
 }

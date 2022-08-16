@@ -156,6 +156,9 @@ public class Player extends Entity {
 	    	int enemyIndex = gp.cCheck.checkEntity(this,  gp.enemy);
 	    	contactEnemy(enemyIndex);
 	    	
+	    	// Check interactive tile collission
+	    	gp.cCheck.checkEntity(this, gp.interactiveTiles);
+	    	
 	    	// Check event
 	    	gp.eHandler.checkEvent();
 	    	
@@ -266,6 +269,9 @@ public class Player extends Entity {
 			int enemyIndex = gp.cCheck.checkEntity(this,  gp.enemy);
 			damageEnemy(enemyIndex, attack);
 			
+			int interactiveTileIndex = gp.cCheck.checkEntity(this, gp.interactiveTiles);
+			damageInteractiveTile(interactiveTileIndex);
+			
 			// Restoring player state after checking collision
 			worldX = currentWorldX;
 			worldY = currentWorldY;
@@ -317,6 +323,12 @@ public class Player extends Entity {
 					checkLevelUp();
 				}
 			}
+		}
+	}
+	
+	public void damageInteractiveTile(int index) {
+		if (index != -1 && gp.interactiveTiles[index].destructable) {
+			gp.interactiveTiles[index] = null;
 		}
 	}
 	

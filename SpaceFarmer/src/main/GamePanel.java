@@ -77,6 +77,7 @@ public class GamePanel extends JPanel implements Runnable {
     	aSetter.setObject();
     	aSetter.setNPC();
     	aSetter.setEnemy();
+    	aSetter.setInteractiveTile();
 //    	playMusic(0);
     	gameState = TITLE_STATE;
     }
@@ -172,6 +173,13 @@ public class GamePanel extends JPanel implements Runnable {
     	else {
     		//     Tiles
         	tileM.draw(g2);
+        	
+        	for (int i = 0; i < interactiveTiles.length; i++) {
+        		if (interactiveTiles[i] != null) {
+        			interactiveTiles[i].draw(g2);
+        		}
+        	}
+        	
         	//     Entities
         	// Player
         	entityList.add(player);
@@ -195,6 +203,7 @@ public class GamePanel extends JPanel implements Runnable {
         		if (projectileList.get(i) != null) 
         			entityList.add(projectileList.get(i));
         	}
+        	
         	// Sorting
         	Collections.sort(entityList, new Comparator<Entity>() {
 				@Override
